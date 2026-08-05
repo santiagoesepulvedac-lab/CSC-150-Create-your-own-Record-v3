@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Third Crusade Music Gallery</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+/* ===========================
+   2x2 Layout
+=========================== */
+
+#map{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+}
+
+.panel{
+    position:relative;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,.15);
+}
+
+.panel img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.fitGif{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+    padding:20px;          /* Increase or decrease this value */
+    background:#000;
+}
+
+.fitImage{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+    padding:20px;      /* Adjust this value for more/less empty space */
+    background:#000;   /* Optional: black bars around the image */
+}
+
+.panel video{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+    background:#000;
+}
+/* ===========================
+   Music Nodes
+=========================== */
+
+.hotspot{
+
+    position:absolute;
+
+    width:54px;
+    height:54px;
+
+    border-radius:50%;
+
+    border:3px solid white;
+
+    background:rgba(255,255,255,.18);
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    z-index:5;
+
+}
+
+.hotspot:hover{
+
+    transform:scale(1.2);
+
+    background:rgba(255,255,255,.4);
+
+}
+
+.hotspot.active{
+
+    background:gold;
+
+    box-shadow:0 0 20px gold;
+
+}
+
+/* ===========================
+   Song Display
+=========================== */
+
+#songTitle{
+
+    position:absolute;
+
+    left:20px;
+    bottom:20px;
+
+    z-index:20;
+
+    background:rgba(0,0,0,.65);
+
+    color:white;
+
+    padding:15px 22px;
+
+    border-radius:10px;
+
+    font-size:22px;
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="map">
+
+    <!-- ================= TOP LEFT ================= -->
+
+    <div class="panel">
+
+        <img src="BG.png" alt="Crusader">
+
+        <div class="hotspot"
+             style="left:18%;top:28%;"
+             data-song="TheThirdCrusade.m4a"
+             data-title="The Third Crusade">
+        </div>
+
+        <div class="hotspot"
+             style="left:70%;top:65%;"
+             data-song="Schismatic.mp3"
+             data-title="Song 2">
+        </div>
+
+    </div>
+
+    <!-- ================= TOP RIGHT ================= -->
+
+    <div class="panel">
+
+        <video autoplay muted loop playsinline>
+    <source src="Dribble Like a God.mp4" type="video/mp4">
+</video>
+
+        <div class="hotspot"
+             style="left:48%;top:42%;"
+             data-song="Lionel Messi GOAT.mp3"
+             data-title="Song 3">
+        </div>
+
+    </div>
+
+    <!-- ================= BOTTOM LEFT ================= -->
+
+    <div class="panel">
+
+    <img src="NezhaFight.gif" class="fitGif" alt="Animated GIF">
+
+    <div class="hotspot"
+         style="left:30%;top:55%;"
+         data-song="Nezha Displays.mp3"
+         data-title="Song 4">
+    </div>
+
+</div>
+
+    <!-- ================= BOTTOM RIGHT ================= -->
+
+    <div class="panel">
+
+        <img src="Lion-Shark-Eaglev2.png" class="fitImage" alt="Image 4">
+
+        <div class="hotspot"
+             style="left:60%;top:40%;"
+             data-song="Gym Rat Parody.mp3"
+             data-title="Song 5">
+        </div>
+
+    </div>
+
+    <div id="songTitle">
+        Click a music node to play a song
+    </div>
+
+</div>
+
+<audio id="player"></audio>
+
+<script>
+
+const player = document.getElementById("player");
+const title = document.getElementById("songTitle");
+const spots = document.querySelectorAll(".hotspot");
+
+spots.forEach(spot=>{
+
+    spot.addEventListener("click",()=>{
+
+        spots.forEach(s=>s.classList.remove("active"));
+
+        spot.classList.add("active");
+
+        player.src = spot.dataset.song;
+
+        player.play();
+
+        title.textContent="Now Playing: " + spot.dataset.title;
+
+    });
+
+});
+
+player.addEventListener("ended",()=>{
+
+    spots.forEach(s=>s.classList.remove("active"));
+
+    title.textContent="Click a music node to play a song";
+
+});
+
+</script>
+
+</body>
+</html>
